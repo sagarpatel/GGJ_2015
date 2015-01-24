@@ -51,14 +51,14 @@ public class GameManager : MonoBehaviour
 			if(possibleBallSpawnPositions.Contains(tempPos) == false)
 			{
 				possibleBallSpawnPositions.Add(tempPos);
-				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,90) );
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,270) );
 			}
 			tempPos = new Vector3( (float)gridRange_x * gridScale + ballSpawnPosOffsetX, (float)i * gridScale, 0);
 			
 			if(possibleBallSpawnPositions.Contains(tempPos) == false)
 			{
 				possibleBallSpawnPositions.Add(tempPos);
-				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,270) );
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,90) );
 			}
 		}
 
