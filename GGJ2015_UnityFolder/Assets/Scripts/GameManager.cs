@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
 	List<GameObject> playersList;
 
-	float gridScale = 0.30f;
+	float gridScale = 0.40f;
 	int gridRange_x = 3;
 	int gridRange_y = 2;
 
