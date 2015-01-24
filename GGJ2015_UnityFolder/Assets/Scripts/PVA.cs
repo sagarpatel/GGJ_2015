@@ -116,7 +116,7 @@ public class PVA : MonoBehaviour
 			transform.up = velocity.normalized;
 		}
 		
-		
+		acceleration = Vector3.zero;
 	}
 	
 	public void ResetPVA()
@@ -124,5 +124,5 @@ public class PVA : MonoBehaviour
 		Init();
 	}
 	
-	
+
 }
