@@ -5,6 +5,7 @@ public class Ball : MonoBehaviour
 {
 	public AnimationCurve transitionCurve;
 	public float speed = 1.0f;
+	public float speedIncrement = 0.05f;
 
 	bool isTransitioning = false;
 
@@ -57,8 +58,9 @@ public class Ball : MonoBehaviour
 		transform.position = targetPos;
 		transform.rotation = targetRot;
 
-		isTransitioning = false;
+		speed += speedIncrement;
 
+		isTransitioning = false;
 	}
 
 
