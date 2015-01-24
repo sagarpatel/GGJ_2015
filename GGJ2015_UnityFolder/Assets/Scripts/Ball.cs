@@ -18,8 +18,6 @@ public class Ball : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("COLLISDING! " + other.ToString());
-
 		if(other.gameObject.CompareTag("Player") == true)
 		{
 			Vector3 targetPos = other.gameObject.transform.position;

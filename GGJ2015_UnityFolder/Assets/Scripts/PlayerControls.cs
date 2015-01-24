@@ -5,9 +5,13 @@ public class PlayerControls : MonoBehaviour
 {
 	public KeyCode controlKey;
 
+	bool isControlsLocked = false;
 
 	public void Update()
 	{
+
+		if(isControlsLocked == true)
+			return;
 
 		if(Input.GetKeyDown(controlKey) == true)
 		{
@@ -16,5 +20,18 @@ public class PlayerControls : MonoBehaviour
 		}
 
 	}
+
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		isControlsLocked = true;
+	}
+
+	
+	void OnTriggerExit2D(Collider2D other)
+	{
+		isControlsLocked = false;
+	}
+
 
 }
