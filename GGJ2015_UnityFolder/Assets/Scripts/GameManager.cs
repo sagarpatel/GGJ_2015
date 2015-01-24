@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
 	List<Vector3> playersPositionList;
 
+	public GameObject ballPrefab;
+
 	void Start()
 	{
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
