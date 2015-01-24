@@ -5,10 +5,19 @@ public class Collector : MonoBehaviour
 {
 	GameManager gameManager;
 
+	public Vector3 velocity;
+
 	void Start()
 	{
 		gameManager = FindObjectOfType<GameManager>();
 	}
+
+	void Update()
+	{
+
+		transform.position += velocity * Time.deltaTime;
+	}
+
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
@@ -18,6 +27,10 @@ public class Collector : MonoBehaviour
 		{
 			gameManager.CollectedBall();
 
+		}
+		else if(other.gameObject.CompareTag("Outside") == true)
+		{
+			velocity = -velocity;
 		}
 
 
