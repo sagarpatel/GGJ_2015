@@ -12,14 +12,22 @@ public class GameManager : MonoBehaviour
 	int gridRange_x = 3;
 	int gridRange_y = 2;
 
+	float ballSpawnPosOffsetX = 0.25f;
+	float ballSpawnPosOffsetY = 0.2f;
+
 	List<Vector3> vacantGridPositions;
 	List<Vector3> playersPositionList;
 	List<Quaternion> validRotationsList;
+	List<Vector3> possibleBallSpawnPositions;
+	List<Quaternion> possibleBallSpawnOrientations;
+	List<int> ballIndicesInUse;
 
 	public GameObject ballPrefab;
+	List<GameObject> ballsList;
 
 	int currentLevel = 0;
 	int ballsCollectedThisLevel = 0;
+	int requiredBallsToNextLevel = 1;
 
 	void Start()
 	{
@@ -31,8 +39,98 @@ public class GameManager : MonoBehaviour
 		validRotationsList.Add( Quaternion.Euler(0,0,270) );
 		validRotationsList.Add( Quaternion.Euler(0,0,0) );
 
-		ResetPlayerPositions();
+		possibleBallSpawnPositions = new List<Vector3>();
+		possibleBallSpawnOrientations = new List<Quaternion>();
+		ballIndicesInUse = new List<int>();
+		ballsList = new List<GameObject>();
+
+		for(int i = -gridRange_y; i < gridRange_y; i++)
+		{
+			Vector3 tempPos = new Vector3( -(float)gridRange_x * gridScale - ballSpawnPosOffsetX, (float)i * gridScale, 0);
+
+			if(possibleBallSpawnPositions.Contains(tempPos) == false)
+			{
+				possibleBallSpawnPositions.Add(tempPos);
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,90) );
+			}
+			tempPos = new Vector3( (float)gridRange_x * gridScale + ballSpawnPosOffsetX, (float)i * gridScale, 0);
+			
+			if(possibleBallSpawnPositions.Contains(tempPos) == false)
+			{
+				possibleBallSpawnPositions.Add(tempPos);
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,270) );
+			}
+		}
+
+		for(int i = -gridRange_x; i < gridRange_x; i++)
+		{
+			Vector3 tempPos = new Vector3( (float)i * gridScale, -(float)gridRange_y * gridScale - ballSpawnPosOffsetY, 0);
+			
+			if(possibleBallSpawnPositions.Contains(tempPos) == false)
+			{
+				possibleBallSpawnPositions.Add(tempPos);
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,0) );
+			}
+			
+			tempPos = new Vector3( (float)i * gridScale, (float)gridRange_y * gridScale + ballSpawnPosOffsetY, 0);
+
+			if(possibleBallSpawnPositions.Contains(tempPos) == false)
+			{
+				possibleBallSpawnPositions.Add(tempPos);
+				possibleBallSpawnOrientations.Add( Quaternion.Euler(0,0,180) );
+			}
+		}
+
+		StartLevel(currentLevel);
+
 	}
+
+
+
+
+	void StartLevel(int level)
+	{
+		ResetPlayerPositions();
+		LaunchBalls();
+
+	}
+
+	void LaunchBalls()
+	{
+		ballIndicesInUse.Clear();
+		ballsList.Clear();
+
+		int ballsToSpawnCount = requiredBallsToNextLevel;
+
+		for(int i = 0; i < ballsToSpawnCount; i ++)
+		{
+			int randIndex = GenerateRandomBallPosIndex();
+			GameObject newBall = (GameObject)Instantiate(ballPrefab);
+			newBall.transform.position = possibleBallSpawnPositions[randIndex];
+			newBall.transform.rotation = possibleBallSpawnOrientations[randIndex];
+
+			ballsList.Add(newBall);
+
+		}
+	}
+
+	int GenerateRandomBallPosIndex()
+	{
+		int tempIndex;
+		/// BLAAAAAAAAAARRRRRRRRRRRRGGGGGGGGGHHHHHHHHHHH
+		while(true)
+		{
+			tempIndex = Random.Range(0, possibleBallSpawnPositions.Count -1);
+			if(ballIndicesInUse.Contains(tempIndex) == false)
+			{
+				ballIndicesInUse.Add(tempIndex);
+				break;
+			}
+		}
+
+		return tempIndex;
+	}
+
 
 	void ResetPlayerPositions()
 	{
@@ -85,7 +183,7 @@ public class GameManager : MonoBehaviour
 	{
 		ballsCollectedThisLevel +=1;
 
-		if(ballsCollectedThisLevel >= currentLevel )
+		if(ballsCollectedThisLevel >= requiredBallsToNextLevel )
 		{
 			LevelUp();
 		}
@@ -95,8 +193,9 @@ public class GameManager : MonoBehaviour
 	{
 		currentLevel += 1;
 		ballsCollectedThisLevel = 0;
+		requiredBallsToNextLevel = currentLevel/3 +1;
 
-		ResetPlayerPositions();
+		StartLevel(currentLevel);
 
 	}
 
@@ -105,18 +204,18 @@ public class GameManager : MonoBehaviour
 
 
 
-	/*
+
 	void OnDrawGizmosSelected() 
 	{
 		Gizmos.color = Color.yellow;
-		for(int i = 0; i < playersPositionList.Count; i++)
-			Gizmos.DrawSphere(playersPositionList[i], 0.1f);
+		for(int i = 0; i < possibleBallSpawnPositions.Count; i++)
+			Gizmos.DrawSphere(possibleBallSpawnPositions[i], 0.1f);
 
-		Gizmos.color = Color.red;
-		for(int i = 0; i < vacantGridPositions.Count; i++)
-			Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
+		//Gizmos.color = Color.red;
+		//for(int i = 0; i < vacantGridPositions.Count; i++)
+		//	Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
 	}
-	*/
+
 
 
 }
