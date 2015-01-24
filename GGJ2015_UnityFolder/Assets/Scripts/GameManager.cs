@@ -8,26 +8,46 @@ public class GameManager : MonoBehaviour
 
 	List<GameObject> playersList;
 
-	float gridScale = 0.40f;
+	float gridScale = 0.30f;
 	int gridRange_x = 3;
 	int gridRange_y = 2;
 
+	List<Vector3> vacantGridPositions;
 	List<Vector3> playersPositionList;
 
 	public GameObject ballPrefab;
 
+	int currentLevel = 0;
+	int ballsCollectedThisLevel = 0;
+
 	void Start()
 	{
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
-		playersPositionList = new List<Vector3>();
 
+		ResetPlayerPositions();
+	}
+
+	void ResetPlayerPositions()
+	{
+		playersPositionList = new List<Vector3>();
+		vacantGridPositions = new List<Vector3>();
+		for(int i = -gridRange_x; i <= gridRange_x; i++)
+		{
+			for(int j = -gridRange_y; j <= gridRange_y; j++)
+			{
+				Vector3 tempPos = gridScale * new Vector3((float)i, (float)j,0);
+				vacantGridPositions.Add(tempPos);
+			}
+		}
+		
 		for(int i =0; i < playersList.Count; i++)
 		{
 			SpawnPlayer(playersList[i]);
 		}
+
 	}
 
-	public void SpawnPlayer(GameObject player)
+	void SpawnPlayer(GameObject player)
 	{
 		// BLARGH
 		while(true)
@@ -39,18 +59,53 @@ public class GameManager : MonoBehaviour
 				playersPositionList.Add(randomPos);
 				break;
 			}
-
 		}
-
 	}
 
 	Vector3 GenerateRandomGridPosition()
 	{
-		float randX = (float)Random.Range(-gridRange_x, gridRange_x);
-		float randY = (float)Random.Range(-gridRange_y, gridRange_y);
-
-		return gridScale * new Vector3(randX, randY);
+		int randomIndex = Random.Range(0, vacantGridPositions.Count -1);
+		Vector3 freeGridPos = vacantGridPositions[randomIndex];
+		vacantGridPositions.RemoveAt(randomIndex);
+		return freeGridPos;
 	}
+
+	public void CollectedBall()
+	{
+		ballsCollectedThisLevel +=1;
+
+		if(ballsCollectedThisLevel >= currentLevel )
+		{
+			LevelUp();
+		}
+	}
+
+	void LevelUp()
+	{
+		currentLevel += 1;
+		ballsCollectedThisLevel = 0;
+
+		ResetPlayerPositions();
+
+	}
+
+
+
+
+
+
+	/*
+	void OnDrawGizmosSelected() 
+	{
+		Gizmos.color = Color.yellow;
+		for(int i = 0; i < playersPositionList.Count; i++)
+			Gizmos.DrawSphere(playersPositionList[i], 0.1f);
+
+		Gizmos.color = Color.red;
+		for(int i = 0; i < vacantGridPositions.Count; i++)
+			Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
+	}
+	*/
 
 
 }
