@@ -7,7 +7,15 @@ public class Ball : MonoBehaviour
 	public float speed = 1.0f;
 	public float speedIncrement = 0.05f;
 
+	float baseSpeed;
+	float maxSpeed = 2.0f;
+
 	bool isTransitioning = false;
+
+	void Start()
+	{
+		baseSpeed = speed;
+	}
 
 	void Update()
 	{
@@ -35,7 +43,7 @@ public class Ball : MonoBehaviour
 	{
 		isTransitioning = true;
 
-		float timeDuration = 0.5f;
+		float timeDuration =  (1.3f * maxSpeed - speed)/maxSpeed;
 		float timeCounter = 0;
 
 		Vector3 startPos = transform.position;
@@ -59,6 +67,8 @@ public class Ball : MonoBehaviour
 		transform.rotation = targetRot;
 
 		speed += speedIncrement;
+
+		speed = Mathf.Clamp(speed, baseSpeed , maxSpeed);
 
 		isTransitioning = false;
 	}
