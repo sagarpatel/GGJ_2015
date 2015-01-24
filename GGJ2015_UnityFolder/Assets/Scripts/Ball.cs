@@ -66,6 +66,9 @@ public class Ball : MonoBehaviour
 			transform.position = Vector3.Lerp(startPos, targetPos,step);
 			transform.rotation = Quaternion.Slerp(startRot, playerGO.transform.rotation, step);
 
+			//Debug.Log(transform.position);
+			//Debug.Log( Vector3.Distance(transform.position, targetPos) );
+
 			timeCounter += Time.deltaTime;
 			yield return null;
 		}
