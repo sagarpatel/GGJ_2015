@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 		{
 			for(int j = -gridRange_y; j <= gridRange_y; j++)
 			{
-				Vector3 tempPos = gridScale * new Vector3((float)i, (float)j,0);
+				Vector3 tempPos = gridScale * new Vector3((float)i, (float)j,1);
 				vacantGridPositions.Add(tempPos);
 			}
 		}

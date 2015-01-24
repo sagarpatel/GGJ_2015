@@ -40,6 +40,8 @@ public class Ball : MonoBehaviour
 		Vector3 startPos = transform.position;
 		Quaternion startRot = transform.rotation;
 
+		targetPos.z = startPos.z; // keep original ball depth
+
 		while( timeCounter < timeDuration)
 		{
 			float step = timeCounter/timeDuration;
