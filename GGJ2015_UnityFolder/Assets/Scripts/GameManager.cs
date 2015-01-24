@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
 
 	List<Vector3> vacantGridPositions;
 	List<Vector3> playersPositionList;
+	List<Quaternion> validRotationsList;
 
 	public GameObject ballPrefab;
 
@@ -23,6 +24,12 @@ public class GameManager : MonoBehaviour
 	void Start()
 	{
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
+		validRotationsList = new List<Quaternion>();
+
+		validRotationsList.Add( Quaternion.Euler(0,0,90) );
+		validRotationsList.Add( Quaternion.Euler(0,0,180) );
+		validRotationsList.Add( Quaternion.Euler(0,0,270) );
+		validRotationsList.Add( Quaternion.Euler(0,0,0) );
 
 		ResetPlayerPositions();
 	}
@@ -57,6 +64,10 @@ public class GameManager : MonoBehaviour
 			{
 				player.transform.position = randomPos;
 				playersPositionList.Add(randomPos);
+
+				int randomRotIndex = Random.Range(0, validRotationsList.Count );
+				player.transform.rotation = validRotationsList[randomRotIndex];
+
 				break;
 			}
 		}
