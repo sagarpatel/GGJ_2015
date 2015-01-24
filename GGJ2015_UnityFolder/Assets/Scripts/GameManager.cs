@@ -97,6 +97,11 @@ public class GameManager : MonoBehaviour
 
 	void LaunchBalls()
 	{
+		for(int i  = 0; i < ballsList.Count; i++)
+		{
+			Destroy(ballsList[i]);
+		}
+
 		ballIndicesInUse.Clear();
 		ballsList.Clear();
 
@@ -200,10 +205,13 @@ public class GameManager : MonoBehaviour
 	}
 
 
+	public void BallFailed()
+	{
+		StartLevel(1);
+	}
 
 
-
-
+	/*
 
 	void OnDrawGizmosSelected() 
 	{
@@ -216,6 +224,6 @@ public class GameManager : MonoBehaviour
 		//	Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
 	}
 
-
+	*/
 
 }

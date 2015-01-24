@@ -28,9 +28,7 @@ public class ProximityScaling : MonoBehaviour
 		{
 			float currentDiff = Vector2.Distance(ballTransform.position, transform.position);
 			float step = (maxDiff - currentDiff)/maxDiff;
-			Debug.Log( transform.position + " | " + currentDiff);
-			
-			//Debug.Log(ballTransform.position);
+
 			step = scaleCurve.Evaluate(step);
 
 

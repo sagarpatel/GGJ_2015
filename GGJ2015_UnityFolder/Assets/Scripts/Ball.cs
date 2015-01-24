@@ -12,9 +12,12 @@ public class Ball : MonoBehaviour
 
 	bool isTransitioning = false;
 
+	GameManager gameManager;
+
 	void Start()
 	{
 		baseSpeed = speed;
+		gameManager = FindObjectOfType<GameManager>();
 	}
 
 	void Update()
@@ -35,6 +38,10 @@ public class Ball : MonoBehaviour
 			StopAllCoroutines();
 			StartCoroutine(TransitionToCenter(other.gameObject));
 
+		}
+		else if( other.gameObject.CompareTag("Outside") == true)
+		{
+			gameManager.BallFailed();
 		}
 
 	}
