@@ -28,8 +28,8 @@ public class PVA : MonoBehaviour
 	public Vector3 angularFrictionAxisToggle = Vector3.zero;
 	
 	public Space refrenceFrame = Space.World;
-	Vector3 deltaPos;
-	
+
+
 	public float velocityKillThreashold = 0.0f;
 	public float maxVelocityMagnitude = 300.0f;
 	public float maxRotationalVelocityMagnitude = 400.0f;
@@ -59,22 +59,22 @@ public class PVA : MonoBehaviour
 		float currentDT = Time.deltaTime;
 		
 		loopCounter = 0;
+		Vector3 deltaPosition = Vector3.zero;
 		while(stepCounter < currentDT)
 		{
-			CalculatePVA();
+			deltaPosition = CalculatePVA(deltaPosition);
 			stepCounter += timeStep;
 			loopCounter ++;
 		}
 		stepCounter -= currentDT;
 		
-		transform.Translate(deltaPos, refrenceFrame);
-		deltaPos = Vector3.zero;
-		
+		transform.Translate(deltaPosition, refrenceFrame);
+
 		velocityMagnitude = velocity.magnitude;
 		
 	}
 	
-	private void CalculatePVA()
+	public Vector3 CalculatePVA(Vector3 deltaPos)
 	{
 		// do core PVA update
 		
@@ -117,6 +117,8 @@ public class PVA : MonoBehaviour
 		}
 		
 		acceleration = Vector3.zero;
+
+		return deltaPos;
 	}
 	
 	public void ResetPVA()

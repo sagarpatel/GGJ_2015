@@ -14,4 +14,13 @@ public class PathPreview : MonoBehaviour
 	}
 
 
+	void Update()
+	{
+
+
+
+
+	}
+
+
 }
