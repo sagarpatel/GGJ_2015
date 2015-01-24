@@ -214,6 +214,11 @@ public class GameManager : MonoBehaviour
 		StartLevel(1);
 	}
 
+	public int GetCurrentLevel()
+	{
+		return currentLevel;
+	}
+
 
 	/*
 
