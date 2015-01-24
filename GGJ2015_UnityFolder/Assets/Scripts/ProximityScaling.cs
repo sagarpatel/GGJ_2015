@@ -17,25 +17,22 @@ public class ProximityScaling : MonoBehaviour
 	{
 		baseScale = transform.localScale;
 		maxScale = 1.5f * baseScale;
-
 	}
-	
+
+	void OnEnable()
+	{
+		isScaling = false;
+	}
 	
 	public void Update()
 	{
-		
 		if(isScaling == true)
 		{
 			float currentDiff = Vector2.Distance(ballTransform.position, transform.position);
 			float step = (maxDiff - currentDiff)/maxDiff;
-
 			step = scaleCurve.Evaluate(step);
-
-
 			transform.localScale = Vector3.Lerp(baseScale, maxScale, step);
-
 		}
-
 	}
 	
 	

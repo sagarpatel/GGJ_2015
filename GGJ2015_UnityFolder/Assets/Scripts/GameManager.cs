@@ -171,6 +171,10 @@ public class GameManager : MonoBehaviour
 				int randomRotIndex = Random.Range(0, validRotationsList.Count );
 				player.transform.rotation = validRotationsList[randomRotIndex];
 
+				// force re-inits
+				player.SetActive(false);
+				player.SetActive(true);
+
 				break;
 			}
 		}
