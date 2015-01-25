@@ -254,7 +254,29 @@ public class GameManager : MonoBehaviour
 
 	void LevelUp()
 	{
+		StopCoroutine(LaunchLevelCompleteScreen());
+		StartCoroutine(LaunchLevelCompleteScreen());
+	}
+
+	IEnumerator LaunchLevelCompleteScreen()
+	{
+		isInGameplay = false;
+
+		gameUIManager.ToggleLevelCompleteScreen(true);
+
+		float cooldown = 1.0f;
+		yield return new WaitForSeconds(cooldown);
+
+		while(Input.anyKeyDown == false)
+		{
+			yield return null;
+		}
+
+		gameUIManager.ToggleLevelCompleteScreen(false);
+
+		isInGameplay = true;
 		StartLevel(currentLevel + 1);
+
 	}
 
 
@@ -340,6 +362,11 @@ public class GameManager : MonoBehaviour
 	public float GetTimeRatio()
 	{
 		return 1.0f - timeRemainingInCurrentLevel/timePerLevel;
+	}
+
+	public float GetTimeTakenForLevel()
+	{
+		return timePerLevel - timeRemainingInCurrentLevel;
 	}
 
 

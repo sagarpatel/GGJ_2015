@@ -34,6 +34,7 @@ public class GameUIManager : MonoBehaviour
 
 	public GameObject gameUIHolder;
 	public GameObject gameOverScreenHolder;
+	public GameObject levelCompleteScreenHolder;
 
 	Color timeStartColor;
 	Color timeEndColor;
@@ -48,6 +49,15 @@ public class GameUIManager : MonoBehaviour
 	public AnimationCurve multiplierScaleCurve;
 	Color normalMultiplierColor;
 	Vector3 normalMultiplierScale;
+
+
+
+	public Text clearedLevelText;
+	string cleareddLevelBaseText;
+	public Text cumulativeScoreText;
+	string cumulativeScoreBaseText;
+	public Text timeTakenText;
+	string timeTakenBaseText;
 
 
 	void Start()
@@ -66,6 +76,10 @@ public class GameUIManager : MonoBehaviour
 		bigTimeTextScale = 1.5f * normalTimeTextScale;
 		normalMultiplierColor = multiplierText.color;
 		normalMultiplierScale = multiplierText.transform.localScale;
+
+		cleareddLevelBaseText = clearedLevelText.text;
+		cumulativeScoreBaseText = cumulativeScoreText.text;
+		timeTakenBaseText = timeTakenText.text;
 	}
 
 	void Update()
@@ -107,13 +121,17 @@ public class GameUIManager : MonoBehaviour
 		multiplierText.transform.localScale = Vector3.Lerp(normalMultiplierScale, 1.25f * normalMultiplierScale, multiplierStep);
 		multiplierText.color = Color.Lerp(normalMultiplierColor, Color.white, multiplierStep);
 
-
-
-
 		levelReachedText.text = levelReachedBaseText + gameManager.GetCurrentLevel().ToString();
 		finalScoreText.text = finalscoreBaseText + gameManager.GetScore().ToString();
 		highestMultiplierText.text = highestMultiplierBaseText + gameManager.GetHighestMultiplier().ToString();
 		keypressText.text = keypressBaseText + gameManager.GetKeyPressCount().ToString();
+
+
+		clearedLevelText.text = cleareddLevelBaseText + gameManager.GetCurrentLevel().ToString();
+		cumulativeScoreText.text = cumulativeScoreBaseText + gameManager.GetScore().ToString();
+		timeTakenText.text = timeTakenBaseText + gameManager.GetTimeTakenForLevel().ToString() + " seconds";
+
+
 	}
 
 	public void MultiplierIncremented()
@@ -128,9 +146,12 @@ public class GameUIManager : MonoBehaviour
 
 		gameOverScreenHolder.SetActive(state);
 		gameUIHolder.SetActive(!state);
+	}
 
-
-
+	public void ToggleLevelCompleteScreen(bool state)
+	{
+		levelCompleteScreenHolder.SetActive(state);
+		gameUIHolder.SetActive(!state);
 	}
 
 
