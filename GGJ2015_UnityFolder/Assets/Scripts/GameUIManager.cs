@@ -29,6 +29,8 @@ public class GameUIManager : MonoBehaviour
 	public Text keypressText;
 	string keypressBaseText;
 
+	public GameObject outOfTimeTextHolder;
+	public GameObject outOfBoundsTextHolder;
 
 	public GameObject gameUIHolder;
 	public GameObject gameOverScreenHolder;
@@ -57,10 +59,16 @@ public class GameUIManager : MonoBehaviour
 
 	}
 
-	public void ToggleGameOverScreen(bool state)
+	public void ToggleGameOverScreen(bool state, bool isOutOfTime)
 	{
+		outOfTimeTextHolder.SetActive(isOutOfTime);
+		outOfBoundsTextHolder.SetActive(!isOutOfTime);
+
 		gameOverScreenHolder.SetActive(state);
 		gameUIHolder.SetActive(!state);
+
+
+
 	}
 
 

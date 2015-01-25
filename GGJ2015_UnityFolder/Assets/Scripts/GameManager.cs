@@ -104,10 +104,13 @@ public class GameManager : MonoBehaviour
 	void Update()
 	{
 
+		if(isInGameplay == false)
+			return;
+
 		timeRemainingInCurrentLevel -= Time.deltaTime;
 
 		if(timeRemainingInCurrentLevel <= 0)
-			GameOver();
+			GameOver(true);
 
 	}
 
@@ -132,7 +135,7 @@ public class GameManager : MonoBehaviour
 			keyPressCount = 0;
 		}
 
-		gameUIManager.ToggleGameOverScreen(false);
+		gameUIManager.ToggleGameOverScreen(false, false);
 
 		isInGameplay = true;
 
@@ -257,28 +260,24 @@ public class GameManager : MonoBehaviour
 
 	public void BallFailed(GameObject failedBall)
 	{
-
-
-		GameOver();
-
+		GameOver(false);
 
 	}
 
-	void GameOver()
+	void GameOver(bool isOutOfTime)
 	{
 		for(int i = 0; i < ballsList.Count; i++)
 			Destroy(ballsList[i]);
 
-		StopCoroutine(LaunchGameOverScreen());
-		StartCoroutine(LaunchGameOverScreen());
-
+		StopCoroutine(LaunchGameOverScreen(isOutOfTime));
+		StartCoroutine(LaunchGameOverScreen(isOutOfTime));
 	}
 
 
-	IEnumerator LaunchGameOverScreen()
+	IEnumerator LaunchGameOverScreen(bool isOutOfTime)
 	{
 		isInGameplay = false;
-		gameUIManager.ToggleGameOverScreen(true);
+		gameUIManager.ToggleGameOverScreen(true, isOutOfTime);
 
 		float cooldown = 1.0f;
 
@@ -289,7 +288,7 @@ public class GameManager : MonoBehaviour
 			yield return null;
 		}
 
-		gameUIManager.ToggleGameOverScreen(false);
+		gameUIManager.ToggleGameOverScreen(false,isOutOfTime);
 		StartLevel(0);
 	}
 
