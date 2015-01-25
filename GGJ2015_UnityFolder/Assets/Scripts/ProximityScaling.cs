@@ -15,11 +15,19 @@ public class ProximityScaling : MonoBehaviour
 
 	GameManager gameManager;
 
+	SpriteRenderer spriteRenderer;
+	Color normalColor;
+	Color scaledUpColor;
+
 	void Start()
 	{
 		baseScale = transform.localScale;
 		maxScale = 1.5f * baseScale;
 		gameManager = FindObjectOfType<GameManager>();
+
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		normalColor = spriteRenderer.color;
+		scaledUpColor = 3.0f * normalColor;
 	}
 
 	void OnEnable()
@@ -38,6 +46,7 @@ public class ProximityScaling : MonoBehaviour
 			float step = (maxDiff - currentDiff)/maxDiff;
 			step = scaleCurve.Evaluate(step);
 			transform.localScale = Vector3.Lerp(baseScale, maxScale, step);
+			spriteRenderer.color = Color.Lerp(normalColor, scaledUpColor, step);
 		}
 	}
 	
