@@ -18,6 +18,9 @@ public class PlayerControls : MonoBehaviour
 	public void Update()
 	{
 
+		if(gameManager.isInGameplay == false)
+			return;
+
 		if(isControlsLocked == true)
 			return;
 

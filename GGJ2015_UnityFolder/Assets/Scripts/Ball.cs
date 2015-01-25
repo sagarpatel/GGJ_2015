@@ -65,6 +65,9 @@ public class Ball : MonoBehaviour
 
 	void Update()
 	{
+		if(gameManager.isInGameplay == false)
+			return;
+
 		if(isTransitioning == false && isLaunched == true)
 			transform.position += transform.up * speed * Time.deltaTime;
 
