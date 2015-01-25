@@ -5,6 +5,7 @@ public class AudioManager : MonoBehaviour
 {
 	public AudioSource outOfTime;
 	public AudioSource transnfer;
+	public AudioSource turn;
 
 	public void PlayMusic_OutOfTime()
 	{
@@ -19,6 +20,11 @@ public class AudioManager : MonoBehaviour
 	public void Playsound_Transfer()
 	{
 		transnfer.PlayOneShot(transnfer.clip);
+	}
+
+	public void Playsound_Turn()
+	{
+		turn.PlayOneShot(turn.clip);
 	}
 
 }

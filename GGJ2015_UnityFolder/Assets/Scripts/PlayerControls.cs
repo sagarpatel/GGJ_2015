@@ -9,10 +9,12 @@ public class PlayerControls : MonoBehaviour
 
 	GameManager gameManager;
 
+	AudioManager audioManager;
+
 	void Start()
 	{
 		gameManager = FindObjectOfType<GameManager>();
-
+		audioManager = FindObjectOfType<AudioManager>();
 	}
 
 	public void Update()
@@ -28,7 +30,7 @@ public class PlayerControls : MonoBehaviour
 		{
 			transform.Rotate(new Vector3(0,0,-90));
 			gameManager.IncrementKeyPresses();
-
+			audioManager.Playsound_Turn();
 		}
 
 	}
