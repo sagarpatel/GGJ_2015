@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
 
 	List<GameObject> playersList;
 
-	float gridScale = 0.30f;
+	float gridScale = 0.35f;
 	int gridRange_x = 3;
 	int gridRange_y = 2;
 
-	float ballSpawnPosOffsetX = 0.25f;
-	float ballSpawnPosOffsetY = 0.2f;
+	float ballSpawnPosOffsetX = 0.35f;
+	float ballSpawnPosOffsetY = 0.3f;
 
 	List<Vector3> vacantGridPositions;
 	List<Vector3> playersPositionList;
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		StartLevel(currentLevel);
+		StartLevel(0);
 
 	}
 
@@ -90,6 +90,10 @@ public class GameManager : MonoBehaviour
 
 	void StartLevel(int level)
 	{
+		currentLevel = level;
+		ballsCollectedThisLevel = 0;
+		requiredBallsToNextLevel = currentLevel/3 +1;
+
 		ResetPlayerPositions();
 		LaunchBalls();
 	}
@@ -202,12 +206,7 @@ public class GameManager : MonoBehaviour
 
 	void LevelUp()
 	{
-		currentLevel += 1;
-		ballsCollectedThisLevel = 0;
-		requiredBallsToNextLevel = currentLevel/3 +1;
-
-		StartLevel(currentLevel);
-
+		StartLevel(currentLevel + 1);
 	}
 
 
@@ -225,9 +224,7 @@ public class GameManager : MonoBehaviour
 		for(int i = 0; i < ballsList.Count; i++)
 			Destroy(ballsList[i]);
 
-		currentLevel = 0;
-		StartLevel(currentLevel);
-
+		StartLevel(0);
 	}
 
 	public int GetCurrentLevel()
@@ -236,7 +233,7 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	/*
+
 
 	void OnDrawGizmosSelected() 
 	{
@@ -249,6 +246,5 @@ public class GameManager : MonoBehaviour
 		//	Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
 	}
 
-	*/
 
 }
