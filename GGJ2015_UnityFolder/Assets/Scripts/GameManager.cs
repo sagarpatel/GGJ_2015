@@ -343,7 +343,7 @@ public class GameManager : MonoBehaviour
 	{
 
 		isInGameplay = false;
-
+		audioManager.Play_Win();
 		
 		audioManager.StopMusic_OutOfTime();
 		isOutOfTimePlayed = false;

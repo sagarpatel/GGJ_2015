@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 	public AudioSource turn;
 
 	public AudioSource lose;
+	public AudioSource win;
 
 	public void PlayMusic_OutOfTime()
 	{
@@ -33,6 +34,12 @@ public class AudioManager : MonoBehaviour
 	{
 		StopMusic_OutOfTime();
 		lose.Play();
+	}
+
+	public void Play_Win()
+	{
+		StopMusic_OutOfTime();
+		win.Play();
 	}
 
 }
