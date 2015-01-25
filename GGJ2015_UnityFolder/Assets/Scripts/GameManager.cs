@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
 
 
 
-
+	/*
 	void OnDrawGizmosSelected() 
 	{
 		Gizmos.color = Color.yellow;
@@ -247,6 +247,6 @@ public class GameManager : MonoBehaviour
 		//for(int i = 0; i < vacantGridPositions.Count; i++)
 		//	Gizmos.DrawSphere(vacantGridPositions[i], 0.1f);
 	}
-
+	*/
 
 }
