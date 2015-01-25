@@ -295,6 +295,7 @@ public class GameManager : MonoBehaviour
 	public void IncrementMultiplier()
 	{
 		currentMultiplier += multiplierIncrement;
+		gameUIManager.MultiplierIncremented();
 		
 		if(currentMultiplier > highestMultiplier)
 			highestMultiplier = currentMultiplier;

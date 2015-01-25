@@ -43,6 +43,13 @@ public class GameUIManager : MonoBehaviour
 	Vector3 normalTimeTextScale;
 	Vector3 bigTimeTextScale;
 
+	float multiplierScaleCooldown = 3.0f;
+	float multiplierScaleTimeCounter = 0;
+	public AnimationCurve multiplierScaleCurve;
+	Color normalMultiplierColor;
+	Vector3 normalMultiplierScale;
+
+
 	void Start()
 	{
 		gameManager = FindObjectOfType<GameManager>();
@@ -57,7 +64,8 @@ public class GameUIManager : MonoBehaviour
 
 		normalTimeTextScale = timeText.transform.localScale;
 		bigTimeTextScale = 1.5f * normalTimeTextScale;
-
+		normalMultiplierColor = multiplierText.color;
+		normalMultiplierScale = multiplierText.transform.localScale;
 	}
 
 	void Update()
@@ -91,13 +99,26 @@ public class GameUIManager : MonoBehaviour
 		}
 
 
+		multiplierScaleTimeCounter += Time.deltaTime;
+		multiplierScaleTimeCounter = Mathf.Clamp(multiplierScaleTimeCounter, 0, multiplierScaleCooldown);
+
+		float multiplierStep = 1.0f - multiplierScaleTimeCounter/multiplierScaleCooldown;
+		multiplierStep = multiplierScaleCurve.Evaluate(multiplierStep);
+		multiplierText.transform.localScale = Vector3.Lerp(normalMultiplierScale, 1.25f * normalMultiplierScale, multiplierStep);
+		multiplierText.color = Color.Lerp(normalMultiplierColor, Color.white, multiplierStep);
+
+
 
 
 		levelReachedText.text = levelReachedBaseText + gameManager.GetCurrentLevel().ToString();
 		finalScoreText.text = finalscoreBaseText + gameManager.GetScore().ToString();
 		highestMultiplierText.text = highestMultiplierBaseText + gameManager.GetHighestMultiplier().ToString();
 		keypressText.text = keypressBaseText + gameManager.GetKeyPressCount().ToString();
+	}
 
+	public void MultiplierIncremented()
+	{
+		multiplierScaleTimeCounter = 0;
 	}
 
 	public void ToggleGameOverScreen(bool state, bool isOutOfTime)
