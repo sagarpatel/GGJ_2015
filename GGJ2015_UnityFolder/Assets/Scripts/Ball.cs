@@ -41,7 +41,7 @@ public class Ball : MonoBehaviour
 		}
 		else if( other.gameObject.CompareTag("Outside") == true)
 		{
-			gameManager.BallFailed();
+			gameManager.BallFailed(gameObject);
 		}
 
 	}

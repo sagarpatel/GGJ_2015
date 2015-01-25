@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
 	{
 		ResetPlayerPositions();
 		LaunchBalls();
-
 	}
 
 	void LaunchBalls()
@@ -188,9 +187,12 @@ public class GameManager : MonoBehaviour
 		return freeGridPos;
 	}
 
-	public void CollectedBall()
+	public void CollectedBall(GameObject collectedBall)
 	{
 		ballsCollectedThisLevel +=1;
+
+		ballsList.Remove( collectedBall );
+		Destroy(collectedBall);
 
 		if(ballsCollectedThisLevel >= requiredBallsToNextLevel )
 		{
@@ -209,9 +211,23 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	public void BallFailed()
+	public void BallFailed(GameObject failedBall)
 	{
-		StartLevel(1);
+
+
+		GameOver();
+
+
+	}
+
+	void GameOver()
+	{
+		for(int i = 0; i < ballsList.Count; i++)
+			Destroy(ballsList[i]);
+
+		currentLevel = 0;
+		StartLevel(currentLevel);
+
 	}
 
 	public int GetCurrentLevel()
