@@ -45,6 +45,10 @@ public class GameManager : MonoBehaviour
 
 	public Collector[] collectors;
 
+	AudioManager audioManager;
+
+	bool isOutOfTimePlayed = false;
+
 	void Start()
 	{
 		gameUIManager = FindObjectOfType<GameUIManager>();
@@ -99,6 +103,8 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
+		audioManager = FindObjectOfType<AudioManager>();
+
 		StartLevel(0);
 
 	}
@@ -111,8 +117,22 @@ public class GameManager : MonoBehaviour
 
 		timeRemainingInCurrentLevel -= Time.deltaTime;
 
+		if(timeRemainingInCurrentLevel <= 12.0f)
+		{
+			if(isOutOfTimePlayed == false)
+			{
+				audioManager.PlayMusic_OutOfTime();
+				isOutOfTimePlayed = true;
+			}
+		}
+
+
 		if(timeRemainingInCurrentLevel <= 0)
+		{
+
 			GameOver(true);
+
+		}
 
 	}
 
@@ -321,7 +341,12 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator LaunchLevelCompleteScreen()
 	{
+
 		isInGameplay = false;
+
+		
+		audioManager.StopMusic_OutOfTime();
+		isOutOfTimePlayed = false;
 
 		gameUIManager.ToggleLevelCompleteScreen(true);
 
@@ -372,6 +397,8 @@ public class GameManager : MonoBehaviour
 		}
 
 		gameUIManager.ToggleGameOverScreen(false,isOutOfTime);
+
+		isOutOfTimePlayed = false;
 		StartLevel(0);
 	}
 
