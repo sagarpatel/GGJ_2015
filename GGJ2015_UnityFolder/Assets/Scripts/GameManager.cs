@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
 	int ballsCollectedThisLevel = 0;
 	int requiredBallsToNextLevel = 1;
 
+	float score = 0;
+	float currentMultiplier = 1.0f;
+	float multiplierIncrement = 0.5f;
+
 	void Start()
 	{
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
@@ -93,6 +97,10 @@ public class GameManager : MonoBehaviour
 		currentLevel = level;
 		ballsCollectedThisLevel = 0;
 		requiredBallsToNextLevel = currentLevel/3 +1;
+		currentMultiplier = 1.0f;
+
+		if(level == 0)
+			score = 0;
 
 		ResetPlayerPositions();
 		StopCoroutine( LaunchBalls() );
@@ -196,6 +204,7 @@ public class GameManager : MonoBehaviour
 	public void CollectedBall(GameObject collectedBall)
 	{
 		ballsCollectedThisLevel +=1;
+		score += currentMultiplier * 10.0f;
 
 		ballsList.Remove( collectedBall );
 		Destroy(collectedBall);
@@ -229,11 +238,25 @@ public class GameManager : MonoBehaviour
 		StartLevel(0);
 	}
 
+	public void IncrementMultiplier()
+	{
+		currentMultiplier += multiplierIncrement;
+	}
+
 	public int GetCurrentLevel()
 	{
 		return currentLevel;
 	}
 
+	public float GetScore()
+	{
+		return score;
+	}
+
+	public float GetMultiplier()
+	{
+		return currentMultiplier;
+	}
 
 
 	/*

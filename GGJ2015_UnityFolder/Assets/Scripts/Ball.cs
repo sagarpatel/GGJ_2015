@@ -132,6 +132,8 @@ public class Ball : MonoBehaviour
 
 		isTransitioning = false;
 		playerControls.isControlsLocked = false;
+
+		gameManager.IncrementMultiplier();
 	}
 
 
