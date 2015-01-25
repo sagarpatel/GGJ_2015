@@ -15,6 +15,9 @@ public class GameUIManager : MonoBehaviour
 	public Text multiplierText;
 	string multiplierBaseText = "Multiplier: x";
 
+	public Text timeText;
+	string timeBaseText = "Time left: ";
+
 	void Start()
 	{
 		gameManager = FindObjectOfType<GameManager>();
@@ -25,6 +28,7 @@ public class GameUIManager : MonoBehaviour
 		levelText.text = levelBaseText + gameManager.GetCurrentLevel().ToString();
 		scoreText.text = scoreBaseText + gameManager.GetScore().ToString();
 		multiplierText.text = multiplierBaseText + gameManager.GetMultiplier().ToString();
+		timeText.text = timeBaseText + gameManager.GetTimeLeft().ToString();
 	}
 
 

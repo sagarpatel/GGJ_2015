@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour
 	float currentMultiplier = 1.0f;
 	float multiplierIncrement = 0.5f;
 
+	float timePerLevel = 20.0f;
+	float timeRemainingInCurrentLevel;
+
 	void Start()
 	{
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
@@ -89,6 +92,15 @@ public class GameManager : MonoBehaviour
 
 	}
 
+	void Update()
+	{
+
+		timeRemainingInCurrentLevel -= Time.deltaTime;
+
+		if(timeRemainingInCurrentLevel <= 0)
+			GameOver();
+
+	}
 
 
 
@@ -98,6 +110,8 @@ public class GameManager : MonoBehaviour
 		ballsCollectedThisLevel = 0;
 		requiredBallsToNextLevel = currentLevel/3 +1;
 		currentMultiplier = 1.0f;
+
+		timeRemainingInCurrentLevel = timePerLevel;
 
 		if(level == 0)
 			score = 0;
@@ -256,6 +270,11 @@ public class GameManager : MonoBehaviour
 	public float GetMultiplier()
 	{
 		return currentMultiplier;
+	}
+
+	public float GetTimeLeft()
+	{
+		return timeRemainingInCurrentLevel;
 	}
 
 
