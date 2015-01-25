@@ -35,6 +35,9 @@ public class GameUIManager : MonoBehaviour
 	public GameObject gameUIHolder;
 	public GameObject gameOverScreenHolder;
 
+	Color timeStartColor;
+	Color timeEndColor;
+
 	void Start()
 	{
 		gameManager = FindObjectOfType<GameManager>();
@@ -43,6 +46,10 @@ public class GameUIManager : MonoBehaviour
 		finalscoreBaseText = finalScoreText.text;
 		highestMultiplierBaseText = highestMultiplierText.text;
 		keypressBaseText = keypressText.text;
+
+		timeStartColor = timeText.color;
+		timeEndColor = Color.red;
+
 	}
 
 	void Update()
@@ -51,6 +58,7 @@ public class GameUIManager : MonoBehaviour
 		scoreText.text = scoreBaseText + gameManager.GetScore().ToString();
 		multiplierText.text = multiplierBaseText + gameManager.GetMultiplier().ToString();
 		timeText.text = timeBaseText + gameManager.GetTimeLeft().ToString();
+		timeText.color = Color.Lerp(timeStartColor, timeEndColor, gameManager.GetTimeRatio());
 
 		levelReachedText.text = levelReachedBaseText + gameManager.GetCurrentLevel().ToString();
 		finalScoreText.text = finalscoreBaseText + gameManager.GetScore().ToString();

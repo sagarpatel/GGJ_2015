@@ -336,6 +336,11 @@ public class GameManager : MonoBehaviour
 		return keyPressCount;
 	}
 
+	public float GetTimeRatio()
+	{
+		return 1.0f - timeRemainingInCurrentLevel/timePerLevel;
+	}
+
 
 	/*
 	void OnDrawGizmosSelected() 
