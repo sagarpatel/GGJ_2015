@@ -4,6 +4,7 @@ using System.Collections;
 public class Ball : MonoBehaviour 
 {
 	public AnimationCurve transitionCurve;
+	public AnimationCurve spawnSpriteAnimationCurve;
 	public float speed = 1.0f;
 	public float speedIncrement = 0.05f;
 
@@ -13,16 +14,58 @@ public class Ball : MonoBehaviour
 	bool isTransitioning = false;
 
 	GameManager gameManager;
+	SpriteRenderer spriteRenderer;
+
+	bool isLaunched = false;
 
 	void Start()
 	{
 		baseSpeed = speed;
 		gameManager = FindObjectOfType<GameManager>();
+
+	}
+
+	void OnEnable()
+	{
+		isLaunched = false;
+		StartCoroutine(LaunchSpawnAnimation());
+	}
+
+	IEnumerator LaunchSpawnAnimation()
+	{
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+		Vector3 startScale = 10.0f * Vector3.one;
+		Vector3 endScale = Vector3.one;
+		Color startColor = spriteRenderer.color;
+		startColor.a = 0.0f;
+
+		Color endColor = spriteRenderer.color;
+
+
+		float duration = 1.0f;
+		float timeCounter = 0;
+
+		while(timeCounter < duration)
+		{
+			float step = spawnSpriteAnimationCurve.Evaluate(timeCounter/duration);
+
+			spriteRenderer.transform.localScale = Vector3.Lerp(startScale, endScale, step);
+			spriteRenderer.color = Color.Lerp(startColor, endColor, step);
+
+			timeCounter += Time.deltaTime;
+			yield return null;
+		}
+
+		spriteRenderer.transform.localScale = endScale;
+		spriteRenderer.color = endColor;
+
+		isLaunched = true;
 	}
 
 	void Update()
 	{
-		if(isTransitioning == false)
+		if(isTransitioning == false && isLaunched == true)
 			transform.position += transform.up * speed * Time.deltaTime;
 
 	}
