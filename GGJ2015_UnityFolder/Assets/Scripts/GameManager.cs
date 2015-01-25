@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
 
 	public bool isInGameplay = false;
 
+	public Collector[] collectors;
+
 	void Start()
 	{
 		gameUIManager = FindObjectOfType<GameUIManager>();
@@ -114,7 +116,13 @@ public class GameManager : MonoBehaviour
 
 	}
 
-
+	void SetCollectorsState(bool top, bool right, bool bot, bool left)
+	{
+		collectors[0].gameObject.SetActive(top);
+		collectors[1].gameObject.SetActive(right);
+		collectors[2].gameObject.SetActive(bot);
+		collectors[3].gameObject.SetActive(left);
+	}
 
 	void StartLevel(int level)
 	{
@@ -133,6 +141,38 @@ public class GameManager : MonoBehaviour
 			score = 0;
 			highestMultiplier = 1.0f;
 			keyPressCount = 0;
+
+			SetCollectorsState(true, true, true, true);
+		}
+		else if( level == 1)
+		{
+
+			SetCollectorsState(true, true, true, true);
+
+		}
+		else if( level == 2)
+		{
+			SetCollectorsState(true, true, true, true);
+			
+		}
+		else if( level == 3)
+		{
+
+			SetCollectorsState(true, true, false, true);
+		}
+		else if( level == 4)
+		{
+			SetCollectorsState(true, true, true, true);
+			
+		}
+		else if( level == 5)
+		{
+			SetCollectorsState(true, true, true, true);
+		}
+		else if( level == 6)
+		{
+			SetCollectorsState(true, true, true, true);
+
 		}
 
 		gameUIManager.ToggleGameOverScreen(false, false);
