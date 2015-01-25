@@ -238,10 +238,18 @@ public class GameManager : MonoBehaviour
 		return freeGridPos;
 	}
 
-	public void CollectedBall(GameObject collectedBall)
+	public IEnumerator CollectedBall(GameObject collectedBall)
 	{
 		ballsCollectedThisLevel +=1;
 		score += currentMultiplier * 10.0f;
+
+		
+		if(ballsCollectedThisLevel >= requiredBallsToNextLevel )
+		{
+			isInGameplay = false;
+		}
+
+		yield return collectedBall.GetComponent<Ball>().StartCoroutine( collectedBall.GetComponent<Ball>().LaunchCollectedAnimation());
 
 		ballsList.Remove( collectedBall );
 		Destroy(collectedBall);

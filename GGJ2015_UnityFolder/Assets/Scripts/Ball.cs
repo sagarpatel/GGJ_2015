@@ -63,6 +63,44 @@ public class Ball : MonoBehaviour
 		isLaunched = true;
 	}
 
+
+	
+	public IEnumerator LaunchCollectedAnimation()
+	{
+		speed = 0;
+
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		
+		Vector3 startScale = 10.0f * Vector3.one;
+		Vector3 endScale = Vector3.one;
+		Color startColor = spriteRenderer.color;
+		startColor.a = 0.5f;
+		
+		Color endColor = spriteRenderer.color;
+		
+		
+		float duration = 1.0f;
+		float timeCounter = 0;
+		
+		while(timeCounter < duration)
+		{
+			float step = 1.0f - spawnSpriteAnimationCurve.Evaluate(timeCounter/duration);
+			
+			spriteRenderer.transform.localScale = Vector3.Lerp(startScale, endScale, step);
+			spriteRenderer.color = Color.Lerp(startColor, endColor, step);
+			
+			timeCounter += Time.deltaTime;
+			yield return null;
+		}
+		
+		spriteRenderer.transform.localScale = endScale;
+		spriteRenderer.color = endColor;
+		
+		isLaunched = true;
+	}
+
+
+
 	void Update()
 	{
 		if(gameManager.isInGameplay == false)

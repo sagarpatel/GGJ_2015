@@ -46,7 +46,7 @@ public class Collector : MonoBehaviour
 
 		if(other.gameObject.CompareTag("Ball"))
 		{
-			gameManager.CollectedBall(other.gameObject);
+			gameManager.StartCoroutine(gameManager.CollectedBall(other.gameObject));
 
 		}
 		else if(other.gameObject.CompareTag("Outside") == true)
