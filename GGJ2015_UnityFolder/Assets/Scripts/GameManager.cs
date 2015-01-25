@@ -95,10 +95,11 @@ public class GameManager : MonoBehaviour
 		requiredBallsToNextLevel = currentLevel/3 +1;
 
 		ResetPlayerPositions();
-		LaunchBalls();
+		StopCoroutine( LaunchBalls() );
+		StartCoroutine( LaunchBalls() ); 
 	}
 
-	void LaunchBalls()
+	IEnumerator LaunchBalls()
 	{
 		for(int i  = 0; i < ballsList.Count; i++)
 		{
@@ -119,6 +120,7 @@ public class GameManager : MonoBehaviour
 
 			ballsList.Add(newBall);
 
+			yield return new WaitForSeconds(2.0f);
 		}
 	}
 
