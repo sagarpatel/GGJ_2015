@@ -6,7 +6,15 @@ public class PlayerControls : MonoBehaviour
 	public KeyCode controlKey;
 
 	public bool isControlsLocked = false;
-	
+
+	GameManager gameManager;
+
+	void Start()
+	{
+		gameManager = FindObjectOfType<GameManager>();
+
+	}
+
 	public void Update()
 	{
 
@@ -16,6 +24,7 @@ public class PlayerControls : MonoBehaviour
 		if(Input.GetKeyDown(controlKey) == true)
 		{
 			transform.Rotate(new Vector3(0,0,-90));
+			gameManager.IncrementKeyPresses();
 
 		}
 

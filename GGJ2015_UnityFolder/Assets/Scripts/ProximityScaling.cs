@@ -13,10 +13,13 @@ public class ProximityScaling : MonoBehaviour
 	float maxDiff;
 	Vector3 maxScale;
 
+	GameManager gameManager;
+
 	void Start()
 	{
 		baseScale = transform.localScale;
 		maxScale = 1.5f * baseScale;
+		gameManager = FindObjectOfType<GameManager>();
 	}
 
 	void OnEnable()
@@ -26,6 +29,9 @@ public class ProximityScaling : MonoBehaviour
 	
 	public void Update()
 	{
+		if(gameManager.isInGameplay == false)
+			return;
+
 		if(isScaling == true)
 		{
 			float currentDiff = Vector2.Distance(ballTransform.position, transform.position);

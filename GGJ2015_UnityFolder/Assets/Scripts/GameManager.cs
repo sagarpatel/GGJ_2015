@@ -32,12 +32,21 @@ public class GameManager : MonoBehaviour
 	float score = 0;
 	float currentMultiplier = 1.0f;
 	float multiplierIncrement = 0.5f;
+	float highestMultiplier = 1.0f;
 
 	float timePerLevel = 20.0f;
 	float timeRemainingInCurrentLevel;
 
+	int keyPressCount = 0;
+
+	GameUIManager gameUIManager;
+
+	public bool isInGameplay = false;
+
 	void Start()
 	{
+		gameUIManager = FindObjectOfType<GameUIManager>();
+
 		playersList = GameObject.FindGameObjectsWithTag("Player").ToList();
 		validRotationsList = new List<Quaternion>();
 
@@ -106,6 +115,7 @@ public class GameManager : MonoBehaviour
 
 	void StartLevel(int level)
 	{
+
 		currentLevel = level;
 		ballsCollectedThisLevel = 0;
 		requiredBallsToNextLevel = currentLevel/3 +1;
@@ -113,8 +123,18 @@ public class GameManager : MonoBehaviour
 
 		timeRemainingInCurrentLevel = timePerLevel;
 
+
+
 		if(level == 0)
+		{
 			score = 0;
+			highestMultiplier = 1.0f;
+			keyPressCount = 0;
+		}
+
+		gameUIManager.ToggleGameOverScreen(false);
+
+		isInGameplay = true;
 
 		ResetPlayerPositions();
 		StopCoroutine( LaunchBalls() );
@@ -249,12 +269,42 @@ public class GameManager : MonoBehaviour
 		for(int i = 0; i < ballsList.Count; i++)
 			Destroy(ballsList[i]);
 
+		StopCoroutine(LaunchGameOverScreen());
+		StartCoroutine(LaunchGameOverScreen());
+
+	}
+
+
+	IEnumerator LaunchGameOverScreen()
+	{
+		isInGameplay = false;
+		gameUIManager.ToggleGameOverScreen(true);
+
+		float cooldown = 1.0f;
+
+		yield return new WaitForSeconds(cooldown);
+
+		while(Input.anyKeyDown == false)
+		{
+			yield return null;
+		}
+
+		gameUIManager.ToggleGameOverScreen(false);
 		StartLevel(0);
 	}
 
 	public void IncrementMultiplier()
 	{
 		currentMultiplier += multiplierIncrement;
+		
+		if(currentMultiplier > highestMultiplier)
+			highestMultiplier = currentMultiplier;
+	}
+
+	public void IncrementKeyPresses()
+	{
+		keyPressCount += 1;
+
 	}
 
 	public int GetCurrentLevel()
@@ -275,6 +325,16 @@ public class GameManager : MonoBehaviour
 	public float GetTimeLeft()
 	{
 		return timeRemainingInCurrentLevel;
+	}
+
+	public float GetHighestMultiplier()
+	{
+		return highestMultiplier;
+	}
+
+	public int GetKeyPressCount()
+	{
+		return keyPressCount;
 	}
 
 
