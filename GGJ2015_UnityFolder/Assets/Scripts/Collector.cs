@@ -25,7 +25,7 @@ public class Collector : MonoBehaviour
 
 	void Update()
 	{
-		transform.position += velocity * Time.deltaTime;
+		transform.position += velocity.x * transform.right * Time.deltaTime;
 
 
 		stepCounter += direction * lerpSpeed * Time.deltaTime;

@@ -124,6 +124,16 @@ public class GameManager : MonoBehaviour
 		collectors[3].gameObject.SetActive(left);
 	}
 
+	void SetCollectorsSpeed(float speedTop, float speedRight, float speedBot, float speedLeft)
+	{
+		Vector3 tempVec = new Vector3(1,0,0);
+
+		collectors[0].velocity = speedTop * tempVec;
+		collectors[1].velocity = speedRight * tempVec;
+		collectors[2].velocity = speedBot * tempVec;
+		collectors[3].velocity = speedLeft * tempVec;
+	}
+
 	void StartLevel(int level)
 	{
 
@@ -134,9 +144,9 @@ public class GameManager : MonoBehaviour
 
 		timeRemainingInCurrentLevel = timePerLevel;
 
+		int rotLevel = level % 6;
 
-
-		if(level == 0)
+		if(rotLevel == 0)
 		{
 			score = 0;
 			highestMultiplier = 1.0f;
@@ -144,34 +154,37 @@ public class GameManager : MonoBehaviour
 
 			SetCollectorsState(true, true, true, true);
 		}
-		else if( level == 1)
+		else if( rotLevel == 1)
 		{
 
 			SetCollectorsState(true, true, true, true);
 
 		}
-		else if( level == 2)
+		else if( rotLevel == 2)
 		{
 			SetCollectorsState(true, true, true, true);
 			
 		}
-		else if( level == 3)
+		else if( rotLevel == 3)
 		{
 
 			SetCollectorsState(true, true, false, true);
 		}
-		else if( level == 4)
+		else if( rotLevel == 4)
 		{
 			SetCollectorsState(true, true, true, true);
+			SetCollectorsSpeed(0.5f,0,0,0);
 			
 		}
-		else if( level == 5)
+		else if( rotLevel == 5)
 		{
 			SetCollectorsState(true, true, true, true);
+			SetCollectorsSpeed(0,0.5f,0,0.5f);
 		}
-		else if( level == 6)
+		else if( rotLevel == 6)
 		{
 			SetCollectorsState(true, true, true, true);
+			SetCollectorsSpeed(0.5f,0.5f,0.5f,0.5f);
 
 		}
 
