@@ -387,6 +387,8 @@ public class GameManager : MonoBehaviour
 		isInGameplay = false;
 		gameUIManager.ToggleGameOverScreen(true, isOutOfTime);
 
+		audioManager.Play_Lose();
+
 		float cooldown = 1.0f;
 
 		yield return new WaitForSeconds(cooldown);
