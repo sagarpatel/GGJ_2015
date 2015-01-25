@@ -37,6 +37,11 @@ public class GameUIManager : MonoBehaviour
 
 	Color timeStartColor;
 	Color timeEndColor;
+	int counter = 0;
+	bool wasRed = false;
+
+	Vector3 normalTimeTextScale;
+	Vector3 bigTimeTextScale;
 
 	void Start()
 	{
@@ -50,6 +55,9 @@ public class GameUIManager : MonoBehaviour
 		timeStartColor = timeText.color;
 		timeEndColor = Color.red;
 
+		normalTimeTextScale = timeText.transform.localScale;
+		bigTimeTextScale = 1.5f * normalTimeTextScale;
+
 	}
 
 	void Update()
@@ -58,7 +66,32 @@ public class GameUIManager : MonoBehaviour
 		scoreText.text = scoreBaseText + gameManager.GetScore().ToString();
 		multiplierText.text = multiplierBaseText + gameManager.GetMultiplier().ToString();
 		timeText.text = timeBaseText + gameManager.GetTimeLeft().ToString();
-		timeText.color = Color.Lerp(timeStartColor, timeEndColor, gameManager.GetTimeRatio());
+
+		float progress = gameManager.GetTimeRatio();
+		timeText.color = Color.Lerp(timeStartColor, timeEndColor, progress );
+
+		if(progress > 0.75f)
+		{
+			timeText.transform.localScale = bigTimeTextScale;
+			counter ++;
+			if(counter %8 == 0)
+			{
+				if(wasRed == true)
+					timeText.color = Color.black;
+				else
+					timeText.color = Color.red;
+
+				wasRed = !wasRed;
+			}
+		}
+		else
+		{
+			counter = 0;
+			timeText.transform.localScale = normalTimeTextScale;
+		}
+
+
+
 
 		levelReachedText.text = levelReachedBaseText + gameManager.GetCurrentLevel().ToString();
 		finalScoreText.text = finalscoreBaseText + gameManager.GetScore().ToString();
