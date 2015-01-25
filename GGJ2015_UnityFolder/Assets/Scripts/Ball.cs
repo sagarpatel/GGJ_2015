@@ -18,11 +18,13 @@ public class Ball : MonoBehaviour
 
 	bool isLaunched = false;
 
+	AudioManager audioManager;
+
 	void Start()
 	{
 		baseSpeed = speed;
 		gameManager = FindObjectOfType<GameManager>();
-
+		audioManager = FindObjectOfType<AudioManager>();
 	}
 
 	void OnEnable()
@@ -175,6 +177,8 @@ public class Ball : MonoBehaviour
 		playerControls.isControlsLocked = false;
 
 		gameManager.IncrementMultiplier();
+
+		audioManager.Playsound_Transfer();
 	}
 
 

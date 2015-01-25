@@ -4,6 +4,7 @@ using System.Collections;
 public class AudioManager : MonoBehaviour 
 {
 	public AudioSource outOfTime;
+	public AudioSource transnfer;
 
 	public void PlayMusic_OutOfTime()
 	{
@@ -13,6 +14,11 @@ public class AudioManager : MonoBehaviour
 	public void StopMusic_OutOfTime()
 	{
 		outOfTime.Stop();
+	}
+
+	public void Playsound_Transfer()
+	{
+		transnfer.PlayOneShot(transnfer.clip);
 	}
 
 }
